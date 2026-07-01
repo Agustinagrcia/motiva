@@ -1,0 +1,119 @@
+.container {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.headerRow {
+    background: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.headerCell {
+    padding: 10px 12px;
+    color: #4b5563;
+}
+
+.row {
+    border-bottom: 1px solid #e5e7eb;
+    color: #1f2937;
+}
+
+.lowStockRow {
+    background: #fffaf0;
+}
+
+.deletedRow {
+    background: #fee2e2;
+    opacity: .6;
+}
+
+.cell {
+    padding: 10px 12px;
+}
+
+.productName {
+    font-weight: 500;
+}
+
+.center {
+    text-align: center;
+}
+
+.input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid #9ca3af;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.iconButton {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.primary {
+    color: #4f46e5;
+}
+
+.success {
+    color: #10b981;
+}
+
+.danger {
+    color: #ef4444;
+}
+
+.warning {
+    color: #f59e0b;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.lowStock {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: #fef3c7;
+    color: #b45309;
+    padding: 2px 6px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.ok {
+    color: #10b981;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.deleted {
+    color: #b91c1c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.footer {
+    background: #f9fafb;
+    border-top: 2px solid #e5e7eb;
+    font-weight: 700;
+    color: #374151;
+}

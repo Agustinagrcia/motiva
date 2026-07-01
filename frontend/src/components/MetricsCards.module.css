@@ -1,0 +1,61 @@
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.iconWrapper {
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Variantes de color para los iconos fijas */
+.iconStock {
+    background-color: #e0e7ff;
+    color: #4f46e5;
+}
+
+.iconValue {
+    background-color: #ecfdf5;
+    color: #10b981;
+}
+
+/* Variantes dinámicas para el estado crítico */
+.iconCriticalNormal {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+}
+
+.iconCriticalAlert {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.cardLabel {
+    margin: 0;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.cardValue {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.cardValueAlert {
+    color: #b91c1c;
+}
