@@ -1,0 +1,142 @@
+/* Variables para facilitar el mantenimiento */
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --border: #e5e7eb;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --bg-surface: #ffffff;
+    --bg-gray: #f9fafb;
+}
+
+.reports-container {
+    width: 100%;
+    max-width: 1100px; /* Un poco más amplio */
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Inter', system-ui, sans-serif; /* Tipografía más limpia */
+}
+
+.reports-title {
+    color: var(--text-main);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+/* Panel de Filtros */
+.filters-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    background-color: var(--bg-gray);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.filter-input,
+.filter-select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.filter-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Tarjeta Principal */
+.total-historic-card {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+}
+
+.total-historic-card .card-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.total-historic-card .card-value {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 4px 0;
+}
+
+/* Tabla */
+.table-wrapper {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden; /* Elimina desbordes de bordes redondeados */
+}
+
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reports-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    padding: 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.reports-table td {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.reports-table tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Botones y Badges */
+.btn-delete {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #fecaca;
+}
+
+.badge-payment {
+    padding: 4px 10px;
+    border-radius: 20px; /* Más redondeado */
+    font-size: 10px;
+    font-weight: 700;
+}

@@ -1,65 +1,79 @@
 .formSection {
     background-color: #ffffff;
-    padding: 20px;
+    padding: 24px; /* Subimos a 24px para darle más aire y elegancia */
     border-radius: 8px;
     border: 1px solid #e5e7eb;
     margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Un toque sutil de sombra */
 }
 
 .formTitle {
-    font-size: 16px;
+    font-size: 18px; /* Un pelín más grande para marcar jerarquía */
     font-weight: 600;
     margin-top: 0;
-    margin-bottom: 16px;
-    color: #374151;
+    margin-bottom: 20px; /* Un poco más de espacio abajo */
+    color: #1f2937; /* Un gris más oscuro para mejor contraste */
     text-align: center;
 }
 
 .errorMessage {
     background-color: #fee2e2;
     color: #991b1b;
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     margin-bottom: 16px;
     font-size: 13px;
+    border: 1px solid #fca5a5; /* Borde sutil rojo para que no sea solo un bloque plano */
 }
 
 .productForm {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Subí a 140px para que no estruje los inputs de texto largos */
+    gap: 16px; /* 10px quedaba muy pegado, 16px da un respiro visual excelente */
+    align-items: end; /* Si tienes labels arriba, esto hace que todos los inputs queden alineados abajo */
 }
 
 .inputField {
-    padding: 10px;
+    padding: 10px 12px;
     border-radius: 6px;
     border: 1px solid #d1d5db;
     background-color: #ffffff;
     color: #1f2937;
     font-size: 14px;
     outline: none;
+    width: 100%; /* Asegura que ocupe todo el espacio de su celda de la grilla */
+    box-sizing: border-box; /* Evita que el padding estire el input más de la cuenta */
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .inputField:focus {
     border-color: #4f46e5;
-    /* Un extra para mejorar la experiencia al hacer foco */
+    /* Agrega un anillo azul translúcido muy pro al hacer foco */
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); 
 }
 
 .submitButton {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* Ocupa toda la fila inferior de la grilla */
+    justify-self: center; /* Lo centra horizontalmente */
+    width: fit-content; /* Se adapta a su texto */
+    padding: 10px 24px; /* Más ancho a los costados para que sea cómodo de clickear */
+    
     background-color: #4f46e5;
     color: #ffffff;
-    padding: 10px;
     border-radius: 6px;
     border: none;
     font-weight: 600;
     cursor: pointer;
     font-size: 14px;
-    margin-top: 4px;
-    transition: background-color 0.2s ease;
+    margin-top: 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .submitButton:hover {
     background-color: #4338ca;
-    /* Efecto hover para que quede más pro */
+}
+
+/* Pequeño feedback cuando el usuario hace click */
+.submitButton:active {
+    transform: scale(0.98); 
 }

@@ -182,3 +182,13 @@
     border-right-color: var(--border);
   }
 }
+
+.app-title {
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 0.5rem; /* Reduce el espacio debajo del título */
+}
+
+.lucide-undo2 {
+  color: black; /* Esto pintará el trazo del ícono de negro */
+}

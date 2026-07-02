@@ -159,6 +159,7 @@ export default function ProductsTable({
                                                     <button
                                                         onClick={() => saveRowEdit(id)}
                                                         className={`${styles.iconButton} ${styles.success}`}
+                                                        title="Guardar"
                                                     >
                                                         <Check size={16} />
                                                     </button>
@@ -166,23 +167,26 @@ export default function ProductsTable({
                                                     <button
                                                         onClick={cancelEdit}
                                                         className={`${styles.iconButton} ${styles.danger}`}
+                                                        title="Cancelar"
                                                     >
                                                         <X size={16} />
                                                     </button>
                                                 </>
                                             ) : isDeletedView ? (
+                                                // Vista de papelera: SOLO el botoncito de la flecha, sin texto
                                                 <button
                                                     onClick={handleUndo}
-                                                    className={`${styles.iconButton} ${styles.primary} ${styles.undoButton}`}
+                                                    className={`${styles.iconButton} ${styles.muted}`}
+                                                    title="Restaurar"
                                                 >
-                                                    <Undo2 size={14} />
-                                                    Revertir
+                                                    <Undo2 size={16} />
                                                 </button>
                                             ) : (
                                                 <>
                                                     <button
                                                         onClick={() => startEdit(product)}
                                                         className={`${styles.iconButton} ${styles.primary}`}
+                                                        title="Editar"
                                                     >
                                                         <Pencil size={16} />
                                                     </button>
@@ -190,14 +194,17 @@ export default function ProductsTable({
                                                     <button
                                                         onClick={() => handleDeleteProduct(id)}
                                                         className={`${styles.iconButton} ${styles.danger}`}
+                                                        title="Eliminar"
                                                     >
                                                         <Trash2 size={16} />
                                                     </button>
 
+                                                    {/* Si se editó y quieres la opción de volver atrás, también solo el ícono */}
                                                     {hasUndoAvailable && lastAction.type === "EDIT" && (
                                                         <button
                                                             onClick={handleUndo}
-                                                            className={`${styles.iconButton} ${styles.warning}`}
+                                                            className={`${styles.iconButton} ${styles.muted}`}
+                                                            title="Deshacer edición"
                                                         >
                                                             <Undo2 size={16} />
                                                         </button>

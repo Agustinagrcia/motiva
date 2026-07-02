@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Package } from 'lucide-react';
 import MetricsCards from './components/MetricsCards';
 import ProductForm from './components/ProductForm';
 import Toolbar from './components/Toolbar';
 import ProductTable from './components/ProductTable';
+import ReportesVentas from './components/ReportesVentas';
+import RegistrarVenta from './components/RegistrarVenta'; // Tu nueva vista
+import Navbar from './components/Navbar'; // El nuevo menú
+import './App.css'; // Tu CSS de Vite que ya tenías
+
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -25,8 +31,8 @@ export default function App() {
     }
   };
 
-  useEffect(() => { 
-    fetchProducts(); 
+  useEffect(() => {
+    fetchProducts();
   }, []);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,9 +72,9 @@ export default function App() {
     setEditRowData({ ...product });
   };
 
-  const cancelEdit = () => { 
-    setEditingId(null); 
-    setEditRowData({}); 
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditRowData({});
   };
 
   const saveRowEdit = async (id) => {
@@ -84,8 +90,8 @@ export default function App() {
         setEditingId(null);
         fetchProducts();
       }
-    } catch (err) { 
-      console.error("Error al editar", err); 
+    } catch (err) {
+      console.error("Error al editar", err);
     }
   };
 
@@ -97,8 +103,8 @@ export default function App() {
         setLastAction({ type: 'DELETE', id, backupData: { ...productToDelete } });
         fetchProducts();
       }
-    } catch (err) { 
-      console.error("Error al eliminar", err); 
+    } catch (err) {
+      console.error("Error al eliminar", err);
     }
   };
 
@@ -120,8 +126,8 @@ export default function App() {
       }
       setLastAction(null);
       fetchProducts();
-    } catch (err) { 
-      console.error("Error al deshacer", err); 
+    } catch (err) {
+      console.error("Error al deshacer", err);
     }
   };
 
@@ -146,42 +152,62 @@ export default function App() {
   const totalStock = filteredAndSortedProducts.reduce((acc, p) => acc + (p._isDeletedBackup ? 0 : Number(p.stock || 0)), 0);
   const totalValue = filteredAndSortedProducts.reduce((acc, p) => acc + (p._isDeletedBackup ? 0 : (Number(p.price || 0) * Number(p.stock || 0))), 0);
   const totalCritical = filteredAndSortedProducts.filter(p => !p._isDeletedBackup && p.stock <= p.minStock).length;
-
   return (
-    <div style={{ padding: '16px', fontFamily: 'sans-serif', backgroundColor: '#f3f4f6', minHeight: '100vh', color: '#1f2937' }}>
+    <Router>
+      {/* El menú se renderiza en todas las páginas */}
+      <Navbar />
 
-      <header style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-        <Package size={26} color="#4f46e5" />
-        <h1 style={{ fontSize: '22px', fontWeight: '700', margin: 0, color: '#10b981' }}>MOTIVA - Stock</h1>
-      </header>
+      <Routes>
+        {/* VISTA PRINCIPAL: Tu panel de Stock actual */}
+        <Route path="/" element={
+          <div className="app-container">
+            <header className="app-header">
+              <h1 className="app-title">Motiva - stock</h1>
+            </header>
 
-      <MetricsCards totalStock={totalStock} totalValue={totalValue} totalCritical={totalCritical} />
+            <MetricsCards totalStock={totalStock} totalValue={totalValue} totalCritical={totalCritical} />
+            <ProductForm formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} error={error} />
 
-      <ProductForm formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} error={error} />
+            <Toolbar
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              lastAction={lastAction}
+              handleUndo={handleUndo}
+            />
 
-      <Toolbar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        lastAction={lastAction}
-        handleUndo={handleUndo}
-      />
+            <ProductTable
+              products={filteredAndSortedProducts}
+              editingId={editingId}
+              editRowData={editRowData}
+              startEdit={startEdit}
+              cancelEdit={cancelEdit}
+              handleEditRowChange={handleEditRowChange}
+              saveRowEdit={saveRowEdit}
+              handleDeleteProduct={handleDeleteProduct}
+              handleUndo={handleUndo}
+              lastAction={lastAction}
+              totalStock={totalStock}
+              totalValue={totalValue}
+            />
+          </div>
+        } />
 
-      <ProductTable
-        products={filteredAndSortedProducts}
-        editingId={editingId}
-        editRowData={editRowData}
-        startEdit={startEdit}
-        cancelEdit={cancelEdit}
-        handleEditRowChange={handleEditRowChange}
-        saveRowEdit={saveRowEdit}
-        handleDeleteProduct={handleDeleteProduct}
-        handleUndo={handleUndo}
-        lastAction={lastAction}
-        totalStock={totalStock}
-        totalValue={totalValue}
-      />
-    </div>
+        {/* NUEVA VISTA: Formulario de Ventas */}
+        <Route path="/nueva-venta" element={
+          <div className="app-container" style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px' }}>
+            <RegistrarVenta onVentaExitosa={fetchProducts} />
+          </div>
+        } />
+
+        {/* NUEVA VISTA: Estadísticas y Reportes Mensuales */}
+        <Route path="/reportes" element={
+          <div className="app-container" style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px' }}>
+            <ReportesVentas />
+          </div>
+        } />
+      </Routes>
+    </Router>
   );
 }
