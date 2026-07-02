@@ -6,10 +6,12 @@ import ProductForm from './components/ProductForm';
 import Toolbar from './components/Toolbar';
 import ProductTable from './components/ProductTable';
 import ReportesVentas from './components/ReportesVentas';
-import RegistrarVenta from './components/RegistrarVenta'; // Tu nueva vista
-import Navbar from './components/Navbar'; // El nuevo menú
-import './App.css'; // Tu CSS de Vite que ya tenías
+import RegistrarVenta from './components/RegistrarVenta';
+import Navbar from './components/Navbar';
+import './App.css';
 
+// Constante para la URL del backend (prioriza la variable de entorno de Vercel)
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mi-backend-app-rtfc.onrender.com';
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -23,7 +25,7 @@ export default function App() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://:3001/api/products');
+      const res = await fetch(`${API_URL}/api/products`);
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -49,7 +51,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch('http://:3001/api/products', {
+      const res = await fetch(`${API_URL}/api/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -66,7 +68,6 @@ export default function App() {
       setError("No se pudo conectar con el servidor.");
     }
   };
-
   const startEdit = (product) => {
     setEditingId(product._id || product.id);
     setEditRowData({ ...product });
@@ -80,7 +81,7 @@ export default function App() {
   const saveRowEdit = async (id) => {
     const originalProduct = products.find(p => (p._id || p.id) === id);
     try {
-      const res = await fetch(`http://:3001/api/products/${id}`, {
+      const res = await fetch(`${API_URL}/api/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editRowData)
@@ -98,7 +99,7 @@ export default function App() {
   const handleDeleteProduct = async (id) => {
     const productToDelete = products.find(p => (p._id || p.id) === id);
     try {
-      const res = await fetch(`http://:3001/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/api/products/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setLastAction({ type: 'DELETE', id, backupData: { ...productToDelete } });
         fetchProducts();
@@ -112,13 +113,13 @@ export default function App() {
     if (!lastAction) return;
     try {
       if (lastAction.type === 'DELETE') {
-        await fetch('http://:3001/api/products', {
+        await fetch(`${API_URL}/api/products`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lastAction.backupData)
         });
       } else if (lastAction.type === 'EDIT') {
-        await fetch(`http://:3001/api/products/${lastAction.id}`, {
+        await fetch(`${API_URL}/api/products/${lastAction.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lastAction.backupData)
@@ -130,7 +131,6 @@ export default function App() {
       console.error("Error al deshacer", err);
     }
   };
-
   // Lógica de filtrado y ordenamiento
   const displayProducts = [...products];
   if (lastAction && lastAction.type === 'DELETE' && !products.some(p => (p._id || p.id) === lastAction.id)) {
@@ -152,6 +152,7 @@ export default function App() {
   const totalStock = filteredAndSortedProducts.reduce((acc, p) => acc + (p._isDeletedBackup ? 0 : Number(p.stock || 0)), 0);
   const totalValue = filteredAndSortedProducts.reduce((acc, p) => acc + (p._isDeletedBackup ? 0 : (Number(p.price || 0) * Number(p.stock || 0))), 0);
   const totalCritical = filteredAndSortedProducts.filter(p => !p._isDeletedBackup && p.stock <= p.minStock).length;
+
   return (
     <Router>
       {/* El menú se renderiza en todas las páginas */}

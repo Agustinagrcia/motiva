@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './RegistrarVenta.css'; // <-- Importamos tus estilos limpios acá
+import './RegistrarVenta.css';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mi-backend-app-rtfc.onrender.com';
 
 const RegistrarVenta = ({ onVentaExitosa }) => {
     const obtenerFechaHoy = () => {
@@ -25,7 +27,7 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
     useEffect(() => {
         const obtenerProductos = async () => {
             try {
-                const respuesta = await fetch('http://:3001/api/products');
+                const respuesta = await fetch(`${API_URL}/api/products`);
                 const datos = await respuesta.json();
                 setProductos(datos);
             } catch (error) {
@@ -42,7 +44,10 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
         e.preventDefault();
 
         if (!productoSeleccionado || cantidad <= 0) {
-            setMensaje({ texto: 'Por favor, selecciona un producto y una cantidad válida.', tipo: 'error' });
+            setMensaje({
+                texto: 'Por favor, selecciona un producto y una cantidad válida.',
+                tipo: 'error'
+            });
             return;
         }
 
@@ -50,24 +55,31 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
         setMensaje({ texto: '', tipo: '' });
 
         try {
-            const respuesta = await fetch('http://:3001/api/sales', {
+            const res = await fetch(`${API_URL}/api/sales`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     productId: productoSeleccionado,
-                    quantity: Number(cantidad),
+                    quantity: cantidad,
                     date: fecha,
                     clientName,
                     paymentMethod,
                     soldBy,
-                    amountPaid: Number(amountPaid) || totalEnTiempoReal
+                    amountPaid,
+                    total: totalEnTiempoReal
                 })
             });
 
-            const resultado = await respuesta.json();
+            const data = await res.json();
 
-            if (respuesta.ok) {
-                setMensaje({ texto: '¡Venta registrada y stock descontado con éxito!', tipo: 'exito' });
+            if (res.ok) {
+                setMensaje({
+                    texto: '¡Venta registrada y stock descontado con éxito!',
+                    tipo: 'exito'
+                });
+
                 setCantidad(1);
                 setProductoSeleccionado('');
                 setClientName('');
@@ -77,10 +89,16 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
 
                 if (onVentaExitosa) onVentaExitosa();
             } else {
-                setMensaje({ texto: resultado.error || 'Error al procesar la venta.', tipo: 'error' });
+                setMensaje({
+                    texto: data.error || 'Error al procesar la venta.',
+                    tipo: 'error'
+                });
             }
         } catch (error) {
-            setMensaje({ texto: 'No se pudo conectar con el servidor.', tipo: 'error' });
+            setMensaje({
+                texto: 'No se pudo conectar con el servidor.',
+                tipo: 'error'
+            });
         } finally {
             setCargando(false);
         }
@@ -128,7 +146,7 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
                         min="1"
                         className="form-input"
                         value={cantidad}
-                        onChange={(e) => setCantidad(e.target.value)}
+                        onChange={(e) => setCantidad(Number(e.target.value))}
                     />
                 </div>
 
