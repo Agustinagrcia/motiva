@@ -15,7 +15,11 @@ const ReportesVentas = () => {
 
     const obtenerHistorial = async () => {
         try {
-            const response = await fetch('http://localhost:3001/api/sales');
+            // Usamos la variable de entorno en lugar de localhost
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sales`);
+
+            if (!response.ok) throw new Error('Error en la respuesta del servidor');
+
             const data = await response.json();
             setVentas(data);
         } catch (err) {
@@ -24,7 +28,6 @@ const ReportesVentas = () => {
             setCargando(false);
         }
     };
-
     const handleEliminar = async (id) => {
         // 1. Verificación básica
         if (!id) {
@@ -35,25 +38,26 @@ const ReportesVentas = () => {
         if (!window.confirm("¿Segura? Se borrará la venta y se devolverá el stock al inventario.")) return;
 
         try {
-            // 2. Usamos el método DELETE explícitamente
-            const res = await fetch(`http://localhost:3001/api/sales/${id}`, {
+            // 2. Usamos la variable de entorno para que apunte a tu servidor (local o en la nube)
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sales/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
 
-            // 3. Captura detallada del error
+            // 3. Manejo de respuesta
             if (res.ok) {
                 setVentas(ventas.filter(v => v._id !== id));
             } else {
-                const errorData = await res.text(); // O .json()
+                const errorData = await res.text();
                 console.error("Respuesta del servidor al eliminar:", errorData);
                 alert("Error al eliminar. Revisa la consola (F12).");
             }
         } catch (err) {
+            // Si el fetch falla (por ejemplo, porque el servidor está apagado), entrará aquí
             console.error("Error de red o conexión:", err);
+            alert("No se pudo conectar con el servidor. Verifica que esté encendido.");
         }
     };
-
     const ventasFiltradas = ventas.filter(venta => {
         const fecha = new Date(venta.date);
         const coincideMes = filtroMes === '' || (fecha.getMonth() + 1) === Number(filtroMes);
