@@ -25,7 +25,7 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
     useEffect(() => {
         const obtenerProductos = async () => {
             try {
-                const respuesta = await fetch('http://localhost:3001/api/products');
+                const respuesta = await fetch('http://:3001/api/products');
                 const datos = await respuesta.json();
                 setProductos(datos);
             } catch (error) {
@@ -50,7 +50,7 @@ const RegistrarVenta = ({ onVentaExitosa }) => {
         setMensaje({ texto: '', tipo: '' });
 
         try {
-            const respuesta = await fetch('http://localhost:3001/api/sales', {
+            const respuesta = await fetch('http://:3001/api/sales', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

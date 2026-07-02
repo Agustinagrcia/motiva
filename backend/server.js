@@ -17,8 +17,10 @@ connectDB().then(() => {
     app.use('/api/sales', saleRoutes);
 
     // 3. Encendido del servidor
-    const PORT = 3001;
-    app.listen(PORT, () => {
-        console.log(`🚀 Servidor modularizado listo en http://localhost:${PORT}`);
-    });
+// Usamos process.env.PORT que es lo que inyecta el servidor en la nube
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor listo en el puerto ${PORT}`);
+});
 });

@@ -23,7 +23,7 @@ export default function App() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/products');
+      const res = await fetch('http://:3001/api/products');
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -49,7 +49,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch('http://localhost:3001/api/products', {
+      const res = await fetch('http://:3001/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -80,7 +80,7 @@ export default function App() {
   const saveRowEdit = async (id) => {
     const originalProduct = products.find(p => (p._id || p.id) === id);
     try {
-      const res = await fetch(`http://localhost:3001/api/products/${id}`, {
+      const res = await fetch(`http://:3001/api/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editRowData)
@@ -98,7 +98,7 @@ export default function App() {
   const handleDeleteProduct = async (id) => {
     const productToDelete = products.find(p => (p._id || p.id) === id);
     try {
-      const res = await fetch(`http://localhost:3001/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`http://:3001/api/products/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setLastAction({ type: 'DELETE', id, backupData: { ...productToDelete } });
         fetchProducts();
@@ -112,13 +112,13 @@ export default function App() {
     if (!lastAction) return;
     try {
       if (lastAction.type === 'DELETE') {
-        await fetch('http://localhost:3001/api/products', {
+        await fetch('http://:3001/api/products', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lastAction.backupData)
         });
       } else if (lastAction.type === 'EDIT') {
-        await fetch(`http://localhost:3001/api/products/${lastAction.id}`, {
+        await fetch(`http://:3001/api/products/${lastAction.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lastAction.backupData)
