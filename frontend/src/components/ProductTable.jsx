@@ -154,10 +154,11 @@ export default function ProductsTable({
                                     {/* Acciones */}
                                     <td className={`${styles.cell} ${styles.center}`}>
                                         <div className={styles.actions}>
-                                            {isEditing ? (
+
+                                            {editingId === (product._id || product.id) ? (
                                                 <>
                                                     <button
-                                                        onClick={() => saveRowEdit(id)}
+                                                        onClick={() => saveRowEdit(product._id || product.id)}
                                                         className={`${styles.iconButton} ${styles.success}`}
                                                         title="Guardar"
                                                     >
@@ -173,7 +174,6 @@ export default function ProductsTable({
                                                     </button>
                                                 </>
                                             ) : isDeletedView ? (
-                                                // Vista de papelera: SOLO el botoncito de la flecha, sin texto
                                                 <button
                                                     onClick={handleUndo}
                                                     className={`${styles.iconButton} ${styles.muted}`}
@@ -192,15 +192,14 @@ export default function ProductsTable({
                                                     </button>
 
                                                     <button
-                                                        onClick={() => handleDeleteProduct(id)}
+                                                        onClick={() => handleDeleteProduct(product._id || product.id)}
                                                         className={`${styles.iconButton} ${styles.danger}`}
                                                         title="Eliminar"
                                                     >
                                                         <Trash2 size={16} />
                                                     </button>
 
-                                                    {/* Si se editó y quieres la opción de volver atrás, también solo el ícono */}
-                                                    {hasUndoAvailable && lastAction.type === "EDIT" && (
+                                                    {hasUndoAvailable && lastAction?.type === "EDIT" && (
                                                         <button
                                                             onClick={handleUndo}
                                                             className={`${styles.iconButton} ${styles.muted}`}
@@ -211,6 +210,7 @@ export default function ProductsTable({
                                                     )}
                                                 </>
                                             )}
+
                                         </div>
                                     </td>
                                 </tr>
