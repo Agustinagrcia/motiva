@@ -15,7 +15,6 @@ const ReportesVentas = () => {
 
     const obtenerHistorial = async () => {
         try {
-            // Usamos la variable de entorno en lugar de localhost
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sales`);
 
             if (!response.ok) throw new Error('Error en la respuesta del servidor');
