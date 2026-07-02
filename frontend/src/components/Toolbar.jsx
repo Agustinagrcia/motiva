@@ -33,29 +33,6 @@ export default function Toolbar({ searchTerm, setSearchTerm, sortBy, setSortBy, 
                     </select>
                 </div>
             </div>
-
-            {/* Cartel de deshacer acción */}
-            {lastAction && (
-                <button
-                    onClick={handleUndo}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        backgroundColor: '#312e81',
-                        color: 'white',
-                        padding: '8px 14px',
-                        borderRadius: '6px',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                        fontWeight: '500'
-                    }}
-                >
-                    <Undo2 size={16} />
-                    Deshacer última {lastAction.type === 'DELETE' ? 'eliminación' : 'edición'}
-                </button>
-            )}
         </div>
     );
 }

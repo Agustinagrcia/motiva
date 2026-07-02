@@ -11,6 +11,8 @@
     min-width: 700px;
     font-size: 14px;
     text-align: left;
+    /* Forzar a que el diseño de las columnas sea más estable */
+    table-layout: fixed; 
 }
 
 .headerRow {
@@ -26,6 +28,8 @@
 .row {
     border-bottom: 1px solid #e5e7eb;
     color: #1f2937;
+    /* Altura fija implícita para evitar saltos */
+    height: 45px; 
 }
 
 .lowStockRow {
@@ -37,8 +41,10 @@
     opacity: .6;
 }
 
+/* MODIFICADO: Agregamos una transición suave y control de alineación */
 .cell {
-    padding: 10px 12px;
+    padding: 6px 12px; /* Reducido verticalmente para dar espacio al input sin saltos */
+    vertical-align: middle;
 }
 
 .productName {
@@ -49,12 +55,25 @@
     text-align: center;
 }
 
+/* MODIFICADO: Ajustado para que no deforme la fila */
 .input {
     width: 100%;
-    padding: 4px 6px;
-    border: 1px solid #9ca3af;
+    padding: 4px 8px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #d1d5db; /* Un gris más sutil que el original */
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: #ffffff;
+    color: #1f2937;
+    /* Evita que sume altura extra a la celda */
+    margin: 0; 
+}
+
+.input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 1px #4f46e5;
 }
 
 .iconButton {
@@ -62,8 +81,12 @@
     background: transparent;
     cursor: pointer;
     padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* --- COLORES DE BOTONES Y ESTADOS --- */
 .primary {
     color: #4f46e5;
 }
@@ -78,6 +101,14 @@
 
 .warning {
     color: #f59e0b;
+}
+
+/* NUEVO: Para el botón de volver atrás / cancelar */
+.secondary {
+    color: #6b7280; /* Un gris intermedio elegante, perfectamente visible en blanco */
+}
+.secondary:hover {
+    color: #374151;
 }
 
 .actions {
